@@ -1,11 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:totelx_machine_test/blocs/authentication/authentication_bloc.dart';
 import 'package:totelx_machine_test/constants/app_theme.dart';
 import 'package:totelx_machine_test/firebase_options.dart';
 import 'package:totelx_machine_test/utils/shared_preferences_helper.dart';
 import 'package:totelx_machine_test/view/screens/authentication/number_input_screen.dart';
-import 'package:totelx_machine_test/view/screens/authentication/verify_otp_screen.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -13,7 +14,15 @@ Future<void> main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(const MyApp());
+    runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (context) => AuthenticationBloc(LoginScreenInitialState()),
+      ),
+    ],
+    child: const MyApp(),
+  )
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -24,7 +33,7 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: AppTheme.darkTheme,
-      home: VerifyOtpScreen(),
+      home: PhoneNumberVerificationScreen(),
     );
   }
 }

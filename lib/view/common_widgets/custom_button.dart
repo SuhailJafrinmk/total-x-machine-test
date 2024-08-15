@@ -9,6 +9,7 @@ class CustomButtonBlack extends StatefulWidget {
   final double? buttonRadius;
   final Color? textColor;
   final double? elevation;
+  final Widget ? btntxt;
 
   CustomButtonBlack({
     super.key,
@@ -20,6 +21,7 @@ class CustomButtonBlack extends StatefulWidget {
     this.ontap,
     this.textColor,
     this.elevation,
+    this.btntxt,
   });
 
   @override
@@ -39,6 +41,7 @@ class _CustomButtonBlackState extends State<CustomButtonBlack> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return InkWell(
+      onTap: widget.ontap,
       child: Material(
         elevation: widget.elevation ?? 10,
         color: widget.color ?? Colors.black,
@@ -51,7 +54,7 @@ class _CustomButtonBlackState extends State<CustomButtonBlack> {
             color: buttonColor,
           ),
           child: Center(
-            child: Text(
+            child: widget.btntxt ?? Text(
               widget.text,
               style: TextStyle(
                 fontWeight: FontWeight.bold,

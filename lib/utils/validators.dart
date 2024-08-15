@@ -1,5 +1,5 @@
 class ValidatorFunctions{
-String? nameValidation(String? value) {
+static String? nameValidation(String? value) {
   if (value == null || value.isEmpty) {
     return 'Enter name';
   } 
@@ -10,12 +10,14 @@ String? nameValidation(String? value) {
   return null;
 }
 
-  String? phoneNumberValidate(value) {
+  static String? phoneNumberValidate(String ? value) {
     final RegExp pattern = RegExp(r'^(?:[+0][1-9])?[0-9]{10,12}$');
-    if (!pattern.hasMatch(value)) {
+    if(value==null ||value.isEmpty){
+      return 'phone number is empty';
+    }
+    else if (!pattern.hasMatch(value)) {
       return 'Invalid mobile number';
     }
-
     return null;
   }
 }
