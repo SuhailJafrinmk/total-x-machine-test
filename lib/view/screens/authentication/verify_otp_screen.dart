@@ -95,10 +95,13 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                                 CustomButtonBlack(
                                   btntxt: BlocConsumer<AuthenticationBloc, AuthenticationState>(
                                     listener: (context, state) {
+          
                                       if(state is LoginScreenErrorState){
+                                        developer.log('the state being emited now is ${state}');
                                         ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, true, state.error));
                                       }else if(state is LoginScreenOtpSuccessState){
-                                        ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, true, 'successfully logged in'));
+                                        developer.log('the state being emited now is ${state}');
+                                        ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, false, 'successfully logged in'));
                                       }
                                     },
                                     builder: (context, state) {

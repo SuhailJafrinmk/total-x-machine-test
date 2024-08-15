@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:totelx_machine_test/blocs/authentication/authentication_bloc.dart';
 import 'package:totelx_machine_test/constants/app_images.dart';
+import 'package:totelx_machine_test/constants/app_text_styles.dart';
 import 'package:totelx_machine_test/utils/custom_snackbar.dart';
 import 'package:totelx_machine_test/utils/validators.dart';
 import 'package:totelx_machine_test/view/common_widgets/custom_button.dart';
@@ -93,12 +94,17 @@ class _PhoneNumberVerificationScreenState
                               },
                               btntxt: BlocConsumer<AuthenticationBloc, AuthenticationState>(
                                 listener: (context, state) {
+                                  developer.log('the state being emited now is ${state}');
                                   if(state is PhoneAuthCodeSentSuccess){
+                                    developer.log('the state being emited now is ${state}');
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>VerifyOtpScreen(verificationId: state.verificationId,)));
                                   }
                                 },
                                 builder: (context, state) {
-                                  return Container();
+                                  if(state is LoginScreenLoadingState){
+                                    return CircularProgressIndicator(color: Colors.white,);
+                                  }
+                                  return Text('Send Otp',style: AppTextStyles.button,);
                                 },
                               )
                               ),
