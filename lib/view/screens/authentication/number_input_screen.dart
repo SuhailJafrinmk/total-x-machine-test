@@ -10,6 +10,8 @@ import 'package:totelx_machine_test/view/common_widgets/custom_button.dart';
 import 'package:totelx_machine_test/view/common_widgets/custom_textfield.dart';
 import 'dart:developer' as developer;
 
+import 'package:totelx_machine_test/view/screens/authentication/verify_otp_screen.dart';
+
 class PhoneNumberVerificationScreen extends StatefulWidget {
   const PhoneNumberVerificationScreen({super.key});
 
@@ -83,21 +85,22 @@ class _PhoneNumberVerificationScreenState
                               ontap: () {
                                 developer.log('button is clicked');
                                 if(formkey.currentState!.validate()){
+                                  developer.log('the phone number in textfield is ${phoneNumberController.text}');
                                   BlocProvider.of<AuthenticationBloc>(context).add(SendOtpToPhone(phoneNumber: '+91${phoneNumberController.text.trim()}'));
                                 }else{
                                   ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, true, 'Phone number is not valid'));
                                 }
                               },
-                              btntxt: BlocBuilder<AuthenticationBloc, AuthenticationState>(
-                                builder: (context, state) {
-                                  if(state is LoginScreenLoadingState){
-                                    return CircularProgressIndicator();
-                                  }else{
-                                    return Text('Login');
+                              btntxt: BlocConsumer<AuthenticationBloc, AuthenticationState>(
+                                listener: (context, state) {
+                                  if(state is PhoneAuthCodeSentSuccess){
+                                    Navigator.push(context, MaterialPageRoute(builder: (context)=>VerifyOtpScreen(verificationId: state.verificationId,)));
                                   }
-                                 
                                 },
-                              ),
+                                builder: (context, state) {
+                                  return Container();
+                                },
+                              )
                               ),
                           ],
                         ),

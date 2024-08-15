@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:totelx_machine_test/blocs/authentication/authentication_bloc.dart';
 import 'package:totelx_machine_test/constants/app_colors.dart';
 import 'package:totelx_machine_test/constants/app_images.dart';
 import 'package:flutter_otp_text_field/flutter_otp_text_field.dart';
 import 'package:totelx_machine_test/constants/app_text_styles.dart';
+import 'package:totelx_machine_test/utils/custom_snackbar.dart';
 import 'package:totelx_machine_test/view/common_widgets/countdown_timer.dart';
 import 'package:totelx_machine_test/view/common_widgets/custom_button.dart';
+import 'dart:developer' as developer;
 
 class VerifyOtpScreen extends StatefulWidget {
-  const VerifyOtpScreen({super.key});
+final String verificationId;
+  const VerifyOtpScreen({super.key, required this.verificationId});
 
   @override
   State<VerifyOtpScreen> createState() => _VerifyOtpScreenState();
@@ -18,6 +23,7 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
   String otpCode='00';
   @override
   Widget build(BuildContext context) {
+   developer.log('the verifcation code from firebase is printing from ui ${widget.verificationId}');
     final Size size=MediaQuery.of(context).size;
     return Scaffold(
       resizeToAvoidBottomInset: false,
@@ -86,7 +92,34 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                CustomButtonBlack(text: 'Verify'),
+                                CustomButtonBlack(
+                                  btntxt: BlocConsumer<AuthenticationBloc, AuthenticationState>(
+                                    listener: (context, state) {
+                                      if(state is LoginScreenErrorState){
+                                        ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, true, state.error));
+                                      }else if(state is LoginScreenOtpSuccessState){
+                                        ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, true, 'successfully logged in'));
+                                      }
+                                    },
+                                    builder: (context, state) {
+                                      if(state is LoginScreenLoadingState){
+                                        return CircularProgressIndicator();
+                                      }
+                                      return Container();
+                                    },
+                                  ),
+                                  ontap: () {
+                                           if (otpCode.length == 6) {
+                                BlocProvider.of<AuthenticationBloc>(context).add(VerfiySendOtp(otpCode: otpCode, verificationId: widget.verificationId));
+                                    
+                              } else {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    customSnackbar(context, true,
+                                        'Please check your OTP'));
+                              }
+                                  },
+                                  text: 'Verify'
+                                  ),
                               ],
                             ),
                     ],

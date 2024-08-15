@@ -20,6 +20,7 @@ class FirebaseService {
     }
   )async{
     await auth.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
       verificationCompleted: verificationCompleted,
       verificationFailed: verificationFailed,
       codeSent: codeSent,
