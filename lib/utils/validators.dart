@@ -20,4 +20,21 @@ static String? nameValidation(String? value) {
     }
     return null;
   }
+
+  
+  static String? ageValidation(String? value) {
+  if (value == null || value.isEmpty) {
+    return 'Enter age';
+  }
+  final RegExp ageRegExp = RegExp(r'^\d+$');
+  if (!ageRegExp.hasMatch(value)) {
+    return 'Age must be a number';
+  }
+  final int age = int.parse(value);
+  if (age <= 0 || age > 120) {
+    return 'Enter a valid age between 1 and 120';
+  }
+  return null;
+}
+
 }

@@ -44,7 +44,10 @@ class _PhoneNumberVerificationScreenState
                       flex: 1,
                       child: SizedBox(
                         child: Center(
-                         child: Image.asset(AppImages.numberInputScreenSvg),
+                         child: Padding(
+                           padding: const EdgeInsets.all(20),
+                           child: Image.asset(AppImages.numberInputScreenSvg),
+                         ),
                         ),
                       )),
                   Expanded(
@@ -53,13 +56,16 @@ class _PhoneNumberVerificationScreenState
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Text('Enter phone number'),
+                            SizedBox(height: size.height*.03,),
+                            const Text('Enter phone number',style: AppTextStyles.subtitle,),
+                            SizedBox(height: size.height*.01,),
                             CustomTextField(
                               validator: (value) =>ValidatorFunctions.phoneNumberValidate(value),
                               inputType: TextInputType.number,
                                 hintText: 'Enter phone number',
                                 textEditingController: phoneNumberController
                                 ),
+                                SizedBox(height: size.height*.02,),
                             const Text.rich(
                               TextSpan(
                                 text: 'By continuing, I agree to TotalX\'s ',
@@ -81,6 +87,7 @@ class _PhoneNumberVerificationScreenState
                                 ],
                               ),
                             ),
+                            SizedBox(height: size.height*.02,),
                             CustomButtonBlack(
                               text: 'Login',
                               ontap: () {

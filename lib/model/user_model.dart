@@ -1,5 +1,27 @@
-class UserModel{
-  final String userName;
+class UserModel {
+  final String username;
   final int age;
-  UserModel({required this.userName, required this.age});
+  final String? imageUrl; 
+
+  UserModel({
+    required this.username,
+    required this.age,
+    this.imageUrl,
+  });
+
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
+      username: map['username'],
+      age: map['age'],
+      imageUrl: map['imageUrl'], 
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'username': username,
+      'age': age,
+      'imageUrl': imageUrl, // Can be null
+    };
+  }
 }
