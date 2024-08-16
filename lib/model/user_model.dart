@@ -21,7 +21,7 @@ class UserModel {
     return {
       'username': username,
       'age': age,
-      'imageUrl': imageUrl, // Can be null
+      'imageUrl': imageUrl, 
     };
   }
 }
