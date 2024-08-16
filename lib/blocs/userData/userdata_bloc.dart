@@ -24,9 +24,9 @@ class UserdataBloc extends Bloc<UserdataEvent, UserdataState> {
     on<LogOutButtonClickedEvent>(logOutButtonClickedEvent);
   }
 
-  FutureOr<void> addNewUser(AddNewUser event, Emitter<UserdataState> emit) {
+  FutureOr<void> addNewUser(AddNewUser event, Emitter<UserdataState> emit)async{
     emit(UserDataAddingState());
-    final Result result = firebaseService.addUser(event.userModel);
+    final result = await firebaseService.addUser(event.userModel);
     result.fold((failure) => emit(UserDataAddErrorState(message: failure)),
         (success) => emit(UserDataAddedSuccessState()));
   }

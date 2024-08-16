@@ -9,6 +9,7 @@ import 'package:totelx_machine_test/view/screens/authentication/number_input_scr
 import 'package:totelx_machine_test/view/screens/user/widgets/user_tile.dart';
 import 'package:totelx_machine_test/view/ui_utilities/bottom_sheet.dart';
 import 'package:totelx_machine_test/view/ui_utilities/logout_alert.dart';
+import 'package:totelx_machine_test/view/ui_utilities/success_dialogue.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -39,6 +40,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
     return BlocListener<UserdataBloc, UserdataState>(
       listener: (context, state) {
+        if(state is UserDataAddedSuccessState){
+          showSuccessDialog(context);
+        }
         if (state is UserLogOutSuccess) {
           Navigator.pushReplacement(context,
               MaterialPageRoute(builder: (context) => PhoneNumberVerificationScreen()));
