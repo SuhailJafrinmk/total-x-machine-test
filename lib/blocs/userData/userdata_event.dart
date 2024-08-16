@@ -7,5 +7,5 @@ class AddNewUser extends UserdataEvent{
   AddNewUser({required this.userModel});
 }
 class PickImageEvent extends UserdataEvent{}
-
-
+class GetUserDatasEvent extends UserdataEvent{}
+class LogOutButtonClickedEvent extends UserdataEvent{}

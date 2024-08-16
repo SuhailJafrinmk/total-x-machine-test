@@ -27,3 +27,20 @@ class ImageUploadedSuccessState extends UserdataState{
   final String imageUrl;
   ImageUploadedSuccessState({required this.imageUrl});
 }
+
+class UserDatasFetchedSuccess extends UserdataState{
+  final List<UserModel> users;
+  UserDatasFetchedSuccess({required this.users});
+
+}
+class UserDatasFetchingError extends UserdataState{
+  final String errorMessage;
+  UserDatasFetchingError({required this.errorMessage});
+}
+
+class UserLogOutSuccess extends UserdataState{}
+class UserLogOutError extends UserdataState{
+  final String message;
+  UserLogOutError({required this.message});
+
+}

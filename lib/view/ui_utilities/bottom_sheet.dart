@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:totelx_machine_test/blocs/userData/userdata_bloc.dart';
 import 'package:totelx_machine_test/constants/app_images.dart';
+import 'package:totelx_machine_test/development_only/custom_debugger.dart';
 import 'package:totelx_machine_test/model/user_model.dart';
 import 'package:totelx_machine_test/utils/custom_snackbar.dart';
 import 'package:totelx_machine_test/utils/validators.dart';
@@ -43,7 +44,7 @@ void showCustomBottomSheet(BuildContext context) {
             ),
             child: Container(
               padding: const EdgeInsets.all(16.0),
-              height: size.height * .5,
+              height: size.height * .6,
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(25.0)),
@@ -97,6 +98,7 @@ void showCustomBottomSheet(BuildContext context) {
                         ),
                       ],
                     ),
+                    SizedBox(height: size.height*.05,),
                     CustomTextField(
                         validator: (value) =>
                             ValidatorFunctions.nameValidation(value),
@@ -112,6 +114,7 @@ void showCustomBottomSheet(BuildContext context) {
                         inputType: TextInputType.number,
                         hintText: 'age',
                         textEditingController: userageController),
+                        SizedBox(height: size.height*.02,),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
@@ -127,8 +130,10 @@ void showCustomBottomSheet(BuildContext context) {
                             onPressed: () {
                               if (formKey.currentState!.validate()) {
                                 developer.log('the image url is $imageUrl');
+                                logInfo('the image picked image file is ${imageFile}');
                                 BlocProvider.of<UserdataBloc>(context)
                                 .add(AddNewUser(userModel: UserModel(username: usernameController.text.trim(), age: int.parse(userageController.text.trim()),imageUrl: imageUrl)));
+                                BlocProvider.of<UserdataBloc>(context).add(GetUserDatasEvent());
                               } else {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                     customSnackbar(

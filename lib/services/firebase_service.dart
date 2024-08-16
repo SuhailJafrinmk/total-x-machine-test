@@ -51,12 +51,39 @@ Future<Either<String, String>> uploadImage(XFile image) async {
     final UploadTask uploadTask = ref.putFile(File(image.path));
     final TaskSnapshot snapshot = await uploadTask;
     final String downloadUrl = await snapshot.ref.getDownloadURL();
+    logInfo('the download url of the image is $downloadUrl-printing inside upload image...');
     return Right(downloadUrl);
   } catch (e) {
     logError('there is an error ${e.toString()}');
     return Left(e.toString());
   }
 }
+
+  Future<Either<String, List<UserModel>>> getUsers() async {
+    try {
+      logInfo('fetching userdata from firebase....');
+      final QuerySnapshot snapshot = await firestore.collection('Users').get();
+      final List<UserModel> users = snapshot.docs.map((doc) {
+      final data = doc.data() as Map<String, dynamic>;
+      return UserModel.fromMap(data);
+      }).toList();
+      logInfo('successfully mapped the usermodels in to list');
+      return Right(users);
+    } catch (e) {
+      logError('There was an error: ${e.toString()}');
+      return Left(e.toString());
+    }
+  }
+
+    Result logoutUser()async{
+    try {
+      await auth.signOut();
+      return const Right(null);
+    } catch (e) {
+      logError('there is an error ${e.toString()}');
+      return Left(e.toString());
+    }
+   }
    
 
 }

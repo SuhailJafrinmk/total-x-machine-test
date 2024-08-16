@@ -21,7 +21,7 @@ Future<void> main() async {
         create: (context) => AuthenticationBloc(LoginScreenInitialState()),
       ),
       BlocProvider(
-        create: (context) => UserdataBloc(),
+        create: (context) => UserdataBloc()..add(GetUserDatasEvent()),
       )
     ],
     child: const MyApp(),
