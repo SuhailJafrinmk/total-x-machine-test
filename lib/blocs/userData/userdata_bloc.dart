@@ -6,10 +6,11 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:meta/meta.dart';
+import 'package:totelx_machine_test/development_only/custom_debugger.dart';
 import 'package:totelx_machine_test/model/user_model.dart';
 import 'package:totelx_machine_test/services/firebase_service.dart';
 import 'package:totelx_machine_test/utils/typedef.dart';
-
+import 'dart:developer' as developer;
 part 'userdata_event.dart';
 part 'userdata_state.dart';
 
@@ -37,6 +38,7 @@ class UserdataBloc extends Bloc<UserdataEvent, UserdataState> {
         result.fold((left) => ImageUploadingErrorState(message: left), (right) =>ImageUploadedSuccessState(imageUrl: right) );
       }
     } catch (e) {
+      logError('there is an error ${e.toString()}');
       emit(ImagePickingErrorState(message: e.toString()));
     }
   }

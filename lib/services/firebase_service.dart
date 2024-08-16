@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:totelx_machine_test/development_only/custom_debugger.dart';
 import 'package:totelx_machine_test/model/user_model.dart';
 import 'package:totelx_machine_test/utils/typedef.dart';
 import 'package:path/path.dart' as path;
@@ -31,15 +32,17 @@ class FirebaseService {
       codeSent: codeSent,
       codeAutoRetrievalTimeout: codeAutoRetrievalTimeout);
   }
-  
+   //the type return is a custom type defined in utils/typedef
    Result addUser(UserModel userModel)async{
     try {
       await firestore.collection('Users').doc(userModel.username).set(userModel.toMap());
-      return Right(null);
+      return const Right(null);
     } catch (e) {
+      logError('there is an error ${e.toString()}');
       return Left(e.toString());
     }
    }
+
 Future<Either<String, String>> uploadImage(XFile image) async {
   try {
     final FirebaseStorage storage = FirebaseStorage.instance;
@@ -50,6 +53,7 @@ Future<Either<String, String>> uploadImage(XFile image) async {
     final String downloadUrl = await snapshot.ref.getDownloadURL();
     return Right(downloadUrl);
   } catch (e) {
+    logError('there is an error ${e.toString()}');
     return Left(e.toString());
   }
 }
