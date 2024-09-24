@@ -105,6 +105,8 @@ class _PhoneNumberVerificationScreenState
                                   if(state is PhoneAuthCodeSentSuccess){
                                     developer.log('the state being emited now is ${state}');
                                     Navigator.push(context, MaterialPageRoute(builder: (context)=>VerifyOtpScreen(verificationId: state.verificationId,)));
+                                  }else if(state is LoginScreenErrorState){
+                                    ScaffoldMessenger.of(context).showSnackBar(customSnackbar(context, true, state.error));
                                   }
                                 },
                                 builder: (context, state) {

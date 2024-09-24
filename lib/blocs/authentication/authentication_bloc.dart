@@ -65,7 +65,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
   }
 
   FutureOr<void> onPhoneAuthenticationError(OnPhoneAuthenticationError event, Emitter<AuthenticationState> emit){
-    developer.log('an error occured while authenticating user');
+    developer.log('an error occured while authenticating user${event.error}');
    emit(LoginScreenErrorState(error: event.error));
   }
 
