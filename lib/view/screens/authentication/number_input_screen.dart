@@ -3,6 +3,7 @@ import 'dart:developer' as developer;
 import 'package:provider/provider.dart';
 import 'package:totelx_machine_test/constants/app_images.dart';
 import 'package:totelx_machine_test/constants/app_text_styles.dart';
+import 'package:totelx_machine_test/development_only/custom_debugger.dart';
 import 'package:totelx_machine_test/providers/auth_provider.dart';
 import 'package:totelx_machine_test/utils/custom_snackbar.dart';
 import 'package:totelx_machine_test/utils/validators.dart';
@@ -114,7 +115,7 @@ class _PhoneNumberVerificationScreenState
                             },
                             btntxt: Consumer<AuthenticationProvider>(
                               builder: (context, authProvider, child) {
-                                // Listen to changes in the AuthState
+                                logInfo('the state is ${authProvider.state}');
                                 if (authProvider.state == AuthState.loading) {
                                   return CircularProgressIndicator(
                                     color: Colors.white,

@@ -9,6 +9,7 @@ import 'package:totelx_machine_test/constants/app_theme.dart';
 import 'package:totelx_machine_test/firebase_options.dart';
 import 'package:totelx_machine_test/providers/auth_provider.dart';
 import 'package:totelx_machine_test/providers/home_screen_provider.dart';
+import 'package:totelx_machine_test/providers/pick_image_provider.dart';
 import 'package:totelx_machine_test/providers/signout_provider.dart';
 import 'package:totelx_machine_test/utils/connectivity_checker/cubit/connectivity_cubit.dart';
 import 'package:totelx_machine_test/utils/no_connection_dilogue.dart';
@@ -30,6 +31,7 @@ Future<void> main() async {
         ChangeNotifierProvider(create: (context) => AuthenticationProvider(firebaseService: di.sl(),)),
         ChangeNotifierProvider(create: (context)=>HomeScreenProvider(firebaseService: di.sl())),
         ChangeNotifierProvider(create: (context)=>SignOutProvider(firebaseService: di.sl())),
+        ChangeNotifierProvider(create: (context)=>PickImageProvider(firebaseService: di.sl()))
       ],
       child: const MyApp(),
       ),

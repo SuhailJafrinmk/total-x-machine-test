@@ -10,6 +10,7 @@ String _errorMessage = '';
 String get errorMessage => _errorMessage;
 AuthState get state => _state;
 Future<void> signOutUser()async{
+if(firebaseService.auth.currentUser!=null){
   final response=await firebaseService.logoutUser();
   response.fold((left){
     _state=AuthState.error;
@@ -17,5 +18,7 @@ Future<void> signOutUser()async{
   }, (right){
     _state=AuthState.signedOut;
   });
+}
+notifyListeners();
 }
 }

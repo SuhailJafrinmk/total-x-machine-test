@@ -29,8 +29,9 @@ class UserTile extends StatelessWidget {
             children: [
               Expanded(flex: 2,child: 
               CircleAvatar(
+                // backgroundColor: Colors.transparent,
                 radius: 30,
-                backgroundImage: userModel.imageUrl!=null ? NetworkImage(userModel.imageUrl!) : AssetImage(AppImages.profileImg) as ImageProvider,)),
+                backgroundImage: userModel.imageUrl!=null ? NetworkImage(userModel.imageUrl!) : const AssetImage(AppImages.profileImg) as ImageProvider,)),
               Expanded(flex: 2,child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.center,

@@ -129,6 +129,16 @@ class _VerifyOtpScreenState extends State<VerifyOtpScreen> {
 
                                 return CustomButtonBlack(
                                   text: 'verfiy',
+                                  btntxt: Consumer<AuthenticationProvider>(builder: (context, value, child) {
+                                    logInfo('current value of state is ${value.state}');
+                                    if(value.state==AuthState.loading){
+                                       return CircularProgressIndicator(
+                                    color: Colors.white,
+                                  );   
+                                    }
+                                      return const Text('Send Otp',
+                                    style: AppTextStyles.button);
+                                  },),
                                   ontap: () {
                                     Provider.of<AuthenticationProvider>(context,listen: false).verifyRecievedOtp(widget.verificationId, otpCode);
                                   },

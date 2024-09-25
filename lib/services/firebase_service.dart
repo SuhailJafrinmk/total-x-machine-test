@@ -103,13 +103,11 @@ class FirebaseService {
   final FirebaseAuth auth;
   final FirebaseFirestore firestore;
   final FirebaseStorage storage;
-  User user;
 
   FirebaseService({
     required this.auth,
     required this.firestore,
     required this.storage,
-    required this.user
   });
 
   Future<void> loginWithPhone({
@@ -130,8 +128,10 @@ class FirebaseService {
 
   Result addUser(UserModel userModel) async {
     try {
-      await firestore.collection('Users').doc(user?.uid).collection('Userdata').doc().set(userModel.toMap());
-      // await firestore.collection('Users').doc(userModel.username).set(userModel.toMap());
+      User ? user=auth.currentUser;
+      if(user!=null){
+        await firestore.collection('Users').doc(auth.currentUser?.uid).collection('Userdata').doc().set(userModel.toMap());
+      }
       return const Right(null);
     } catch (e) {
       logError('there is an error ${e.toString()}');
@@ -142,7 +142,7 @@ class FirebaseService {
   Future<Either<String, String>> uploadImage(XFile image) async {
     try {
       final String fileName = path.basename(image.path);
-      final Reference ref = storage.ref().child('images/$fileName');
+      final Reference ref = storage.ref(auth.currentUser?.uid).child('images/$fileName');
       final UploadTask uploadTask = ref.putFile(File(image.path));
       final TaskSnapshot snapshot = await uploadTask;
       final String downloadUrl = await snapshot.ref.getDownloadURL();
@@ -157,7 +157,7 @@ class FirebaseService {
   Future<Either<String, List<UserModel>>> getUsers() async {
     try {
       logInfo('fetching userdata from firebase....');
-      final QuerySnapshot snapshot = await firestore.collection('Users').doc(user.uid).collection('Userdata').get();
+      final QuerySnapshot snapshot = await firestore.collection('Users').doc(auth.currentUser?.uid).collection('Userdata').get();
       final List<UserModel> users = snapshot.docs.map((doc) {
         final data = doc.data() as Map<String, dynamic>;
         return UserModel.fromMap(data);
@@ -179,4 +179,6 @@ class FirebaseService {
       return Left(e.toString());
     }
   }
+
 }
+

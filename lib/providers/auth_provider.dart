@@ -32,7 +32,6 @@ class AuthenticationProvider with ChangeNotifier {
       return;
     }
     _updateState(AuthState.loading); 
-
     try {
       await _retryOtpSend(phoneNumber);
     } catch (e) {
@@ -91,7 +90,9 @@ class AuthenticationProvider with ChangeNotifier {
   Future<void> onPhoneAuthenticationError(FirebaseAuthException firebaseAuthException) async {
     _handleException(firebaseAuthException);
   }
+
   Future<void> verifyRecievedOtp(String verficationId,String smsCode)async{
+    _updateState(AuthState.loading);
     try {
       PhoneAuthCredential phoneAuthCredential=PhoneAuthProvider.credential(verificationId: verficationId, smsCode: smsCode);
       await onPhoneAuthVerificationCompleted(phoneAuthCredential);

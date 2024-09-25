@@ -12,18 +12,15 @@ Future<void> initDependencies() async {
   sl.registerLazySingleton(() => FirebaseAuth.instance);
   sl.registerLazySingleton(() => FirebaseFirestore.instance);
   sl.registerLazySingleton(() => FirebaseStorage.instance);
-  sl.registerLazySingleton(() => User);
+  // sl.registerLazySingleton<User?>(() => FirebaseAuth.instance.currentUser);
+
 
   // Registering FirebaseService with injected dependencies
   sl.registerLazySingleton(() => FirebaseService(
     auth: sl<FirebaseAuth>(),
     firestore: sl<FirebaseFirestore>(),
     storage: sl<FirebaseStorage>(),
-    user: sl<User>()
+    // user: sl<User>()
   ));
 
-  // Registering other providers/services
-  // sl.registerLazySingleton(() => AuthenticationProvider(
-  //   firebaseService: sl(),
-  // ));
 }
